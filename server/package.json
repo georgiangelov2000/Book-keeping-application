@@ -9,10 +9,12 @@
   "author": "George Angelov",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1"
   },
   "devDependencies": {
     "dotenv": "^9.0.2",
+    "express-validator": "^6.11.1",
     "mongoose": "^5.12.10"
   }
 }
