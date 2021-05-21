@@ -1,0 +1,18 @@
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "George Angelov",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "dotenv": "^9.0.2",
+    "mongoose": "^5.12.10"
+  }
+}
