@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
+const config = require("config");
+const db = config.get("MONGODB_URL");
 
-const connectDatabase = () => {
-  mongoose
-    .connect(process.env.DB_LOCAL_URL, {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(db, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-    })
-    .then((con) => {
-      console.log(`MongoDB Database connect with host: ${con.connection.host} 
-      `);
+      useFindAndModify: false,
     });
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
 };
 
-module.exports = connectDatabase;
+module.exports = connectDB;

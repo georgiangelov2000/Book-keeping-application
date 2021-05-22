@@ -1,18 +1,16 @@
 const express = require('express');
-const dotenv=require('dotenv');
-const connectDatabase=require('./config/db');
+const connectDB=require('./config/db');
 const app=express();
 
-app.use(express.json());
+connectDB();
 
-dotenv.config({path:'./config/config.env'})
-connectDatabase();
-
-const PORT=process.env.PORT ||5000
-
+app.use(express.json({extended: true}));
 const usersRoute=require('./routes/users');
-app.use('/api/users',usersRoute)
+
+app.use('/api/users',usersRoute);
+
+const PORT=process.env.PORT || 5000 ;
 
 app.listen(PORT,()=>{
-    console.log(`server started on ${process.env.PORT}`)
+    console.log(`server started on ${PORT}`)
 });
