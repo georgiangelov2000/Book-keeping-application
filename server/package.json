@@ -1,15 +1,16 @@
 {
   "name": "service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Book keeping app",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start":"nodemon server.js"
   },
   "author": "George Angelov",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^6.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1"
   },
