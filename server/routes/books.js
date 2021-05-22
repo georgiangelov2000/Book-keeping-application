@@ -1,19 +1,43 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jwt");
+const { check, validationResult } = require("express-validator");
 const Book = require("../models/book");
-const User = require("../models/user");
 
-router.post("/create/book", async (req, res) => {
-  try {
-    const book = await Book.create(req.body);
-    res.json(book);
-  } catch (error) {
-    throw new Error(error);
+router.post(
+  "/create",
+  [
+    check("category", "Category is required").not().isEmpty(),
+    check("author", "Author is required author ").not().isEmpty(),
+    check("title", "title is required").not().isEmpty(),
+    check("createdBy","createdBy is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const {category,author,title,createdBy}=req.body;
+
+    try {
+      const book = await Book.create({
+        category: category,
+        author:author,
+        title:title,
+        createdBy:createdBy
+      })
+      await book.save();
+      res.json(book);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
-});
+);
 
-router.get("/", async (req, res) => {
+router.get("/allbooks", async (req, res) => {
   const books = await Book.find().populate("createdBy").sort("createAt");
 
   if (books) {
@@ -22,6 +46,16 @@ router.get("/", async (req, res) => {
     throw new Error("Server error");
   }
 });
+
+router.get("/book/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    res.send(book);
+  } catch (error) {
+    throw new Error("no book found");
+  }
+});
+
 
 router.delete("/delete/:id", async (req, res) => {
   try {
@@ -41,13 +75,4 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.get("/get/:id", async (req, res) => {
-  try {
-    const book = await Book.findById(req.params.id);
-    res.send(book);
-  } catch (error) {
-    throw new Error("no book found");
-  }
-});
-
-module.exports= router;
+module.exports = router;
