@@ -9,7 +9,6 @@ router.post(
     check("category", "Category is required").not().isEmpty(),
     check("author", "Author is required author ").not().isEmpty(),
     check("title", "title is required").not().isEmpty(),
-    check("createdBy","createdBy is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
