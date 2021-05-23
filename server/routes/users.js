@@ -5,14 +5,29 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 
+const auth = require ("../middleware/authMiddleware");
+
 const User = require("../models/user");
+
+router.get("/authorization", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 router.post(
   "/register",
   [
     check("name", "Name is required").not().isEmpty(),
     check("email", "Please include a valid email address").isEmail(),
-    check("password","Please enter password with 6 or more characters").isLength({ min: 6 }),
+    check(
+      "password",
+      "Please enter password with 6 or more characters"
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -113,6 +128,5 @@ router.post(
     }
   }
 );
-
 
 module.exports = router;

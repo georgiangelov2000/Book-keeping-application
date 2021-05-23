@@ -1,10 +1,12 @@
 const url="http://localhost:5000";
 
-export const createBook=(author,title,category)=>{
+export const createBook=(author,title,category,description,img)=>{
     const book={
         author:author,
         title:title,
         category:category,
+        description:description,
+        img:img
     }
     return fetch(`${url}/api/books/create`,{
         method: 'POST',

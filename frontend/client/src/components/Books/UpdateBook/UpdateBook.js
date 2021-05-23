@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import * as httpService from "../../../service/httpService";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import axios from "axios";
 
-const CreateBook = () => {
+const UpdateBook = () => {
   let history = useHistory();
+  const { _id } = useParams();
   const [book, setBook] = useState({
     author: "",
     title: "",
@@ -13,30 +14,32 @@ const CreateBook = () => {
     description: "",
     img: "",
   });
-  const [error, setError] = useState("");
 
   const { author, title, category, description, img } = book;
 
-  const onChange = (e) => setBook({ ...book, [e.target.name]: e.target.value });
+  const onChange = (e) => {
+    setBook({ ...book, [e.target.name]: e.target.value });
+  };
 
-  const onSubmit = (e) => {
+  useEffect(() => {
+    loadBooks();
+  }, []);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/books/create", book)
-      .then((res) => {
-        setBook(res.data);
-        history.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error.msg);
-      });
+    await axios.put(`http://localhost:5000/api/books/update/${_id}`, book);
+    history.push("/");
+  };
+
+  const loadBooks = async () => {
+    const res = await axios.get(`http://localhost:5000/api/books/book/${_id}`);
+    setBook(res.data);
   };
 
   return (
     <Container>
-      <h5>Create Book</h5>
       <Form onSubmit={onSubmit}>
+        <h5>Book Data: {title.toLocaleUpperCase()}</h5>
         <Form.Group controlId="exampleForm.AuthorInput1">
           <Form.Label>Author</Form.Label>
           <Form.Control
@@ -55,7 +58,6 @@ const CreateBook = () => {
             type="text"
             name="title"
           />
-          {error ? <p>{error}</p> : null}
         </Form.Group>
 
         <Form.Group controlId="exampleForm.DescriptionInput1">
@@ -66,10 +68,9 @@ const CreateBook = () => {
             type="text"
             name="description"
           />
-          {error ? <p>{error}</p> : null}
         </Form.Group>
 
-        <Form.Group controlId="exampleForm.ImgInput1">
+        <Form.Group controlId="exampleForm.ImageInput1">
           <Form.Label>Image Url</Form.Label>
           <Form.Control
             value={img}
@@ -77,7 +78,6 @@ const CreateBook = () => {
             type="text"
             name="img"
           />
-          {error ? <p>{error}</p> : null}
         </Form.Group>
 
         <Form.Group controlId="exampleForm.ControlSelect1">
@@ -94,7 +94,6 @@ const CreateBook = () => {
             <option value="history">History</option>
             <option value="romance">Romance</option>
           </Form.Control>
-          {error ? <p>{error}</p> : null}
         </Form.Group>
 
         <Button variant="primary" type="submit" block>
@@ -105,4 +104,4 @@ const CreateBook = () => {
   );
 };
 
-export default CreateBook;
+export default UpdateBook;

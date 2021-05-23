@@ -9,6 +9,8 @@ router.post(
     check("category", "Category is required").not().isEmpty(),
     check("author", "Author is required author ").not().isEmpty(),
     check("title", "title is required").not().isEmpty(),
+    check("description", "description is required").not().isEmpty(),
+    check("img","img is required").not().isEmail()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -19,13 +21,15 @@ router.post(
       });
     }
 
-    const {category,author,title,createdBy}=req.body;
+    const {category,author,title,description,img,createdBy}=req.body;
 
     try {
       const book = await Book.create({
         category: category,
         author:author,
         title:title,
+        description:description,
+        img:img,
         createdBy:createdBy
       })
       await book.save();

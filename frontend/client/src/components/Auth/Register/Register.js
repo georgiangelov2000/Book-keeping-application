@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Alert } from "react-bootstrap";
 import axios from "axios";
 
 const Register = () => {
@@ -8,6 +8,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const { username, email, password } = user;
 
@@ -21,8 +22,8 @@ const Register = () => {
         setUser(res.data);
         console.log(res.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        setError(error.message);
       });
   };
 
@@ -30,14 +31,19 @@ const Register = () => {
     <Container>
       <Form onSubmit={onSubmit}>
         <h5>Register Form</h5>
+        {error ? (
+          <>
+            <Alert variant="danger">{error}</Alert>
+          </>
+        ) : null}
         <Form.Group controlId="formBasicName">
           <Form.Label>Name</Form.Label>
           <Form.Control
             value={username}
             onChange={onChange}
-            name="name"
+            name="username"
             type="text"
-            placeholder="Name"
+            placeholder="Username"
           />
         </Form.Group>
 
