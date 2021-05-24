@@ -6,11 +6,11 @@ const Book = require("../models/book");
 router.post(
   "/create",
   [
-    check("category", "Category is required").not().isEmpty(),
-    check("author", "Author is required author ").not().isEmpty(),
-    check("title", "title is required").not().isEmpty(),
-    check("description", "description is required").not().isEmpty(),
-    check("img","img is required").not().isEmail()
+    check("author", "Author is required!").not().isEmpty(),
+    check("title", "Title is required!").not().isEmpty(),
+    check("description", "Description is required!").not().isEmpty(),
+    check("img","Image is required!").not().isEmpty(),
+    check("category", "Category is required!").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);

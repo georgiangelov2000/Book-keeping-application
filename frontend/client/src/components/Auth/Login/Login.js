@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
 
-const Login = ({history}) => {
+const Login = () => {
+  let history=useHistory();
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,33 +20,14 @@ const Login = ({history}) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/users/login",
-        user,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      localStorage.setItem("token", res.data.token);
-      history.push("/");
+      await axios
+        .post("http://localhost:5000/api/users/login", user)
+        .then((response) => {
+          history.push("/");
+        });
     } catch (error) {
       setError(error.message);
     }
-
-    /*
-    e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/users/login", user)
-      .then((res) => {
-        setUser(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-    */
   };
 
   return (

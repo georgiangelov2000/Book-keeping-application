@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Image, Row, Col, Container, ListGroup } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { Badge, Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 
 const BookDetails = () => {
@@ -20,36 +20,29 @@ const BookDetails = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
+    <div>
+      <Col xs="3" className="mb-5 pb-5 text-center m-auto">
         <Col>
-          <Image src={book.img} rounded className="w-50" />
+          <span className="text-secondary">Title: </span>
+          <small>{book.title}</small>
+        </Col>
+
+        <Col>
+          <span className="text-secondary">Category: </span>
+          <small>{book.category}</small>
+        </Col>
+        <img width="100%" className="mb-2" src={book.img} alt="" />
+        <Col>
+          <span className="text-secondary">Description: </span>
         </Col>
         <Col>
-          <Row>
-            <ListGroup variant="flush">
-              <h5>Data Book: </h5>
-              <ListGroup.Item>
-                <h6>Author: </h6>
-                {book.author}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h6>Title: </h6>
-                {book.title}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h6>Description:</h6> 
-                {book.description}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <h6>Category:</h6> 
-                {book.category}
-              </ListGroup.Item>
-            </ListGroup>
-          </Row>
+          <small>{book.description}</small>
         </Col>
-      </Row>
-    </Container>
+
+        <span className="text-secondary">Author: </span>
+        <small>{book.author}</small>
+      </Col>
+    </div>
   );
 };
 
