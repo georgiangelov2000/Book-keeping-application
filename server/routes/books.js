@@ -9,7 +9,7 @@ router.post(
     check("author", "Author is required!").not().isEmpty(),
     check("title", "Title is required!").not().isEmpty(),
     check("description", "Description is required!").not().isEmpty(),
-    check("img","Image is required!").not().isEmpty(),
+    check("img", "Image is required!").not().isEmpty(),
     check("category", "Category is required!").not().isEmpty(),
   ],
   async (req, res) => {
@@ -21,17 +21,17 @@ router.post(
       });
     }
 
-    const {category,author,title,description,img,createdBy}=req.body;
+    const { category, author, title, description, img, createdBy } = req.body;
 
     try {
       const book = await Book.create({
         category: category,
-        author:author,
-        title:title,
-        description:description,
-        img:img,
-        createdBy:createdBy
-      })
+        author: author,
+        title: title,
+        description: description,
+        img: img,
+        createdBy: createdBy,
+      });
       await book.save();
       res.json(book);
     } catch (error) {
@@ -58,7 +58,6 @@ router.get("/book/:id", async (req, res) => {
     throw new Error("no book found");
   }
 });
-
 
 router.delete("/delete/:id", async (req, res) => {
   try {

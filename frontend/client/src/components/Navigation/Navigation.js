@@ -17,24 +17,6 @@ const Navigation = () => {
             <Nav.Link className="text-white">Create Book</Nav.Link>
           </LinkContainer>
         </Nav.Item>
-
-        <Nav.Item>
-          <LinkContainer to="/register">
-            <Nav.Link className="text-white">Register</Nav.Link>
-          </LinkContainer>
-        </Nav.Item>
-
-        <Nav.Item>
-          <LinkContainer to="/login">
-            <Nav.Link className="text-white">Login</Nav.Link>
-          </LinkContainer>
-        </Nav.Item>
-
-        <Nav.Item>
-          <LinkContainer to="/logout">
-            <Nav.Link className="text-white">Logout</Nav.Link>
-          </LinkContainer>
-        </Nav.Item>
       </Nav>
     </>
   );
